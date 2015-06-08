@@ -1,0 +1,120 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffe8841c"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/text1"
+            android:textColor="#ffffffff"
+            android:text="How-Old.app"
+            android:textSize="38dp"
+            android:paddingBottom="10dp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/text2"
+            android:textColor="#ffffffff"
+            android:text="HOW OLD DO I LOOK?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text1"
+            android:layout_alignLeft="@+id/text1"
+            />
+        <TextView
+            android:id="@+id/text3"
+            android:textColor="#ffff4617"
+            android:text=" #HowOldRobot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text1"
+            android:layout_toRightOf="@id/text2"/>
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_weight="4"
+        android:padding="20dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/t4"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:minHeight="70dp"
+        android:id="@+id/bottom_layout"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal|bottom"
+        android:padding="15dp"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/camera"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/camera"
+            android:background="#FFFFFFFF"/>
+        <ImageButton
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/detect"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/detect2"
+            />
+
+        />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/picture"
+            android:src="@drawable/picture"
+            android:background="#ffffffff"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffffff"
+        android:layout_gravity="center"
+        android:paddingBottom="10dp"
+        android:textSize="15dp"
+        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:clickable="true"
+        android:id="@+id/waitting">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/age_gender"
+            android:drawableLeft="@drawable/male"
+            android:background="@drawable/hint"
+            android:text="123"
+            android:visibility="invisible"
+            android:textColor="#ffe8841c"
+            android:textSize="22sp"
+            android:gravity="center"/>
+    </FrameLayout>
+
+
+
+
+</LinearLayout>
