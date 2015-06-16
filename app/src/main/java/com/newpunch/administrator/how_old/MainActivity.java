@@ -237,12 +237,22 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void resizePhoto() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-
-        //BitmapFactory.decodeFile(currentPhotoStr,options);
-
-        double ratio = Math.max(options.outWidth *1.0d/ 1024f, options.outHeight* 1.0d/ 1024f);
-        options.inSampleSize = (int) Math.ceil(ratio);
+        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoStr, options);
+        options.inSampleSize = calculateInSampleSize(options,480, 800);
         options.inJustDecodeBounds = false;
         photoImg = BitmapFactory.decodeFile(currentPhotoStr,options);
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
+                                            int reqHeight){
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if(height > reqHeight || width > reqHeight){
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return inSampleSize;
     }
 }
