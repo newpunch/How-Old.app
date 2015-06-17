@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -102,7 +103,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void prepareRsBitmap(JSONObject rs) {
         Bitmap bitmap = Bitmap.createBitmap(photoImg.getWidth(), photoImg.getHeight(),photoImg.getConfig());
         Canvas canvas = new Canvas(bitmap);
-        canvas.drawBitmap(photoImg,0,0,null);
+        canvas.drawBitmap(photoImg, 0, 0, null);
         try {
             JSONArray faces = rs.getJSONArray("face");
             int faceCount = faces.length();
@@ -175,11 +176,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 startActivityForResult(pictures, PICK_CODE);;
                 break;
             case R.id.camera:
-                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHmmss");
-                Date date = new Date(System.currentTimeMillis());
-                filename = format.format(date);
+//                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHmmss");
+//                Date date = new Date(System.currentTimeMillis());
+//                filename = format.format(date);
                 File path = Environment.getExternalStorageDirectory();
-                File outputImage = new File(path, filename+".jpg");
+                File outputImage = new File(path, "testImg.jpg");
                 try{
                     if(outputImage.exists()){
                         outputImage.delete();
@@ -226,8 +227,22 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                 int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
                 currentPhotoStr = cursor.getString(idx);
+                Log.d("1",currentPhotoStr);
                 cursor.close();
 
+                resizePhoto();
+                imageView.setImageBitmap(photoImg);
+            }
+        }
+        if(requestCode == CAMERA_CODE){
+            if(data != null) {
+                Cursor cursor = getContentResolver().query(imageUri, null, null, null, null);
+                cursor.moveToFirst();
+
+                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                currentPhotoStr = cursor.getString(idx);
+                cursor.close();
+                Log.d("2", currentPhotoStr);
                 resizePhoto();
                 imageView.setImageBitmap(photoImg);
             }
