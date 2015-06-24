@@ -48,6 +48,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private String filename;
     private Uri imageUri;
     private Paint mPaint;
+    private File outputImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,7 +181,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 //                Date date = new Date(System.currentTimeMillis());
 //                filename = format.format(date);
                 File path = Environment.getExternalStorageDirectory();
-                File outputImage = new File(path, "testImg.jpg");
+                outputImage = new File(path, "testImg.jpg");
                 try{
                     if(outputImage.exists()){
                         outputImage.delete();
@@ -225,8 +226,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 Cursor cursor = getContentResolver().query(uri, null, null, null, null);
                 cursor.moveToFirst();
 
-                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                currentPhotoStr = cursor.getString(idx);
+//                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                currentPhotoStr = cursor.getString(1);
                 Log.d("1",currentPhotoStr);
                 cursor.close();
 
@@ -235,17 +236,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
         }
         if(requestCode == CAMERA_CODE){
-            if(data != null) {
-                Cursor cursor = getContentResolver().query(imageUri, null, null, null, null);
-                cursor.moveToFirst();
+//            Cursor cursor = getContentResolver().query(imageUri, null, null, null, null);
+//            cursor.moveToFirst();
+//
+//            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            currentPhotoStr = outputImage.getPath().toString();
+//            cursor.close();
+            Log.d("2", currentPhotoStr);
+            resizePhoto();
+            imageView.setImageBitmap(photoImg);
 
-                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                currentPhotoStr = cursor.getString(idx);
-                cursor.close();
-                Log.d("2", currentPhotoStr);
-                resizePhoto();
-                imageView.setImageBitmap(photoImg);
-            }
         }
     }
 
