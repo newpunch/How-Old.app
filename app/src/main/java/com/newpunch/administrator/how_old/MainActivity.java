@@ -60,6 +60,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     private void initEvents() {
+        ButtonAction.setButtonFocusChanged(Picture);
+        ButtonAction.setButtonFocusChanged(Detect);
+        ButtonAction.setButtonFocusChanged(Camera);
         Picture.setOnClickListener(this);
         Detect.setOnClickListener(this);
         Camera.setOnClickListener(this);
@@ -91,7 +94,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     Waitting.setVisibility(View.GONE);
                     String errorMsg = (String) msg.obj;
                     if (TextUtils.isEmpty(errorMsg)){
-                        Tips.setText("Error.");
+                        Tips.setText("Error:");
                     }else {
                         Tips.setText(errorMsg);
                     }
@@ -108,6 +111,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         try {
             JSONArray faces = rs.getJSONArray("face");
             int faceCount = faces.length();
+            if (faceCount == 0){
+                Tips.setText("Error: Could not detect any faces.");
+            }
             for(int i = 0; i < faceCount ; i++){
                 JSONObject face = faces.getJSONObject(i);
                 JSONObject posObj = face.getJSONObject("position");
@@ -177,9 +183,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 startActivityForResult(pictures, PICK_CODE);;
                 break;
             case R.id.camera:
-//                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHmmss");
-//                Date date = new Date(System.currentTimeMillis());
-//                filename = format.format(date);
                 File path = Environment.getExternalStorageDirectory();
                 outputImage = new File(path, "testImg.jpg");
                 try{
@@ -226,9 +229,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 Cursor cursor = getContentResolver().query(uri, null, null, null, null);
                 cursor.moveToFirst();
 
-//                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                currentPhotoStr = cursor.getString(1);
-                Log.d("1",currentPhotoStr);
+                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                currentPhotoStr = cursor.getString(idx);
                 cursor.close();
 
                 resizePhoto();
@@ -236,13 +238,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
         }
         if(requestCode == CAMERA_CODE){
-//            Cursor cursor = getContentResolver().query(imageUri, null, null, null, null);
-//            cursor.moveToFirst();
-//
-//            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             currentPhotoStr = outputImage.getPath().toString();
-//            cursor.close();
-            Log.d("2", currentPhotoStr);
             resizePhoto();
             imageView.setImageBitmap(photoImg);
 
