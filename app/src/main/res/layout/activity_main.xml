@@ -62,15 +62,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/camera"
             android:layout_marginRight="15dp"
-            android:src="@drawable/camera"
-            android:background="#FFFFFFFF"/>
+            android:background="@drawable/camera"
+            />
         <ImageButton
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/detect"
             android:layout_marginRight="15dp"
-            android:src="@drawable/detect2"
+            android:background="@drawable/detect"
             />
 
         />
@@ -79,8 +79,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/picture"
-            android:src="@drawable/picture"
-            android:background="#ffffffff"/>
+            android:background="@drawable/picture"
+            />
     </LinearLayout>
     <TextView
         android:id="@+id/textTip"
