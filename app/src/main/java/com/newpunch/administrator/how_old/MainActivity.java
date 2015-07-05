@@ -7,14 +7,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,9 +27,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.LogRecord;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
@@ -199,24 +195,28 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 startActivityForResult(cameras,CAMERA_CODE);
                 break;
             case  R.id.detect:
-                Waitting.setVisibility(View.VISIBLE);
-                FaceppDetect.detect(photoImg, new FaceppDetect.CallBack() {
-                    @Override
-                    public void success(JSONObject result) {
-                        Message msg = Message.obtain();
-                        msg.what = MSG_SUCESS;
-                        msg.obj = result;
-                        mHandler.sendMessage(msg);
-                    }
+                if (currentPhotoStr==null || currentPhotoStr.trim().equals("")) {
+                    photoImg = BitmapFactory.decodeResource(getResources(),R.drawable.t3);
+                }
+                    Waitting.setVisibility(View.VISIBLE);
+                    FaceppDetect.detect(photoImg, new FaceppDetect.CallBack() {
+                        @Override
+                        public void success(JSONObject result) {
+                            Message msg = Message.obtain();
+                            msg.what = MSG_SUCESS;
+                            msg.obj = result;
+                            mHandler.sendMessage(msg);
+                        }
 
-                    @Override
-                    public void error(FaceppParseException exception) {
-                        Message msg = Message.obtain();
-                        msg.what = MSG_ERROR;
-                        msg.obj = exception.getErrorMessage();
-                        mHandler.sendMessage(msg);
-                    }
-                });
+                        @Override
+                        public void error(FaceppParseException exception) {
+                            Message msg = Message.obtain();
+                            msg.what = MSG_ERROR;
+                            msg.obj = exception.getErrorMessage();
+                            mHandler.sendMessage(msg);
+                        }
+                    });
+
                 break;
         }
     }
@@ -232,7 +232,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
                 currentPhotoStr = cursor.getString(idx);
                 cursor.close();
-
                 resizePhoto();
                 imageView.setImageBitmap(photoImg);
             }
@@ -241,7 +240,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             currentPhotoStr = outputImage.getPath().toString();
             resizePhoto();
             imageView.setImageBitmap(photoImg);
-
         }
     }
 
